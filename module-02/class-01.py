@@ -324,6 +324,17 @@ text=text.split()
 #     return sorted(List)
 # print("The sorted list is:", function(List))
 
-this_list1= [1,5,6,5,1,2,3]
-this_list2= this_list1.copy()
-print("the duplicate list of this_list1 is :",this_list2)
+# this_list1= [1,5,6,5,1,2,3]
+# this_list2= this_list1.copy()
+# print("the duplicate list of this_list1 is :",this_list2)
+a = int(input("Enter the first number:",))
+b = int(input("Enter the second number:",))
+if 1<a<10**10 and 1<b<10**10:
+        addition =a+b
+        difference =a-b
+        product = a*b
+    
+    
+print(addition)
+print(difference)
+print(product)
