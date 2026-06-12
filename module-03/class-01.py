@@ -151,17 +151,24 @@
 # zihad.method_b()
 # zihad.method_c()
 
-class A:
-    def method_a(self):
-        print("This is method A")
-class B(A):
-    def method_b(self):
-        print("This is method B")
-class C(B):
-    def method_c(self):
-        print("this is method C")
+# class A:
+#     def method_a(self):
+#         print("This is method A")
+# class B(A):
+#     def method_b(self):
+#         print("This is method B")
+# class C(B):
+#     def method_c(self):
+#         print("this is method C")
 
-x = C()
-x.method_a()
-x.method_b()        
-x.method_c()
+# x = C()
+# x.method_a()
+# x.method_b()        
+# x.method_c()
+
+class parent:
+    def abba(self):
+        print("xihad")
+
+x = parent()
+x.abba()
