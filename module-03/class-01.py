@@ -25,29 +25,58 @@
 # Cevorlet.car("Camaro", 2019, 40000, "Yellow", 20000)
 # Cevorlet.display()  
 
-class student:
+# class student:
 
-    def set_value(self, name, age, grade, roll):
-        self.name =name 
-        self.age = age
-        self.grade = grade 
-        self.roll = roll
+#     def set_value(self, name, age, grade, roll):
+#         self.name =name 
+#         self.age = age
+#         self.grade = grade 
+#         self.roll = roll
+
+#     def display(self):
+#         print(f"Name: {self.name}, Age: {self.age}, Grade: {self.grade}, Roll: {self.roll}")
+
+# xihad= student()
+# xihad.set_value("xihad", 20, "A", 101)
+# xihad.display()
+
+# ismail = student()
+# ismail.set_value("ismail", 21, "A+", 103)
+# ismail.display()    
+
+# ruku= student()
+# ruku.set_value("ruku", 19, "B", 102)
+# ruku.display()
+
+# Sorpi = student()
+# Sorpi.set_value("Sorpi", 18, "B+", 104)
+# Sorpi.display()
+
+class employee:
+
+    def __init__(self,department):
+        self.department = department
+
+    def employee(self, name, salary, position):
+        self.name = name 
+        self.salary = salary
+        self.position = position    
 
     def display(self):
-        print(f"Name: {self.name}, Age: {self.age}, Grade: {self.grade}, Roll: {self.roll}")
+        print(f"Name:{self.name}, Salary: {self.salary}, Department: {self.department}, Position: {self.position}")
 
-xihad= student()
-xihad.set_value("xihad", 20, "A", 101)
-xihad.display()
+kamal = employee("IT")
+kamal.employee("Kamal", 50000, "Software Engineer")
+kamal.display()
 
-ismail = student()
-ismail.set_value("ismail", 21, "A+", 103)
-ismail.display()    
+jamal = employee("HR")
+jamal.employee("Jamal", 40000, "HR Manager")
+jamal.display()
 
-ruku= student()
-ruku.set_value("ruku", 19, "B", 102)
-ruku.display()
-
-Sorpi = student()
-Sorpi.set_value("Sorpi", 18, "B+", 104)
-Sorpi.display()
+bo = employee("Finance")
+bo.employee("Bo", 45000, "Financial Analyst")
+bo.display()
+ 
+fang = employee("Marketing")
+fang.employee("Fang", 55000, "Marketing Manager")       
+fang.display()
