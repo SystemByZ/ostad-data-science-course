@@ -52,31 +52,70 @@
 # Sorpi.set_value("Sorpi", 18, "B+", 104)
 # Sorpi.display()
 
-class employee:
+# class employee:
 
-    def __init__(self,department):
-        self.department = department
+#     def __init__(self,department):
+#         self.department = department
 
-    def employee(self, name, salary, position):
-        self.name = name 
-        self.salary = salary
-        self.position = position    
+#     def employee(self, name, salary, position):
+#         self.name = name 
+#         self.salary = salary
+#         self.position = position    
+
+#     def display(self):
+#         print(f"Name:{self.name}, Salary: {self.salary}, Department: {self.department}, Position: {self.position}")
+
+# kamal = employee("IT")
+# kamal.employee("Kamal", 50000, "Software Engineer")
+# kamal.display()
+
+# jamal = employee("HR")
+# jamal.employee("Jamal", 40000, "HR Manager")
+# jamal.display()
+
+# bo = employee("Finance")
+# bo.employee("Bo", 45000, "Financial Analyst")
+# bo.display()
+ 
+# fang = employee("Marketing")
+# fang.employee("Fang", 55000, "Marketing Manager")       
+# fang.display()
+
+# class student:
+
+#     def __init__(self):
+#         self.section = "A"
+
+#     def display(self):
+#         print(f"Section: {self.section}")
+
+# kamal = student()
+# kamal.display()
+
+# class person:
+#     pass
+
+class father:
+
+    def info(self, name, age):
+        self.name = name
+        self.age = age
 
     def display(self):
-        print(f"Name:{self.name}, Salary: {self.salary}, Department: {self.department}, Position: {self.position}")
+        print(f"Name: {self.name}, Age: {self.age}")
 
-kamal = employee("IT")
-kamal.employee("Kamal", 50000, "Software Engineer")
-kamal.display()
 
-jamal = employee("HR")
-jamal.employee("Jamal", 40000, "HR Manager")
-jamal.display()
+kabir = father()
+kabir.info("Kabir", 50)
+kabir.display()
 
-bo = employee("Finance")
-bo.employee("Bo", 45000, "Financial Analyst")
-bo.display()
- 
-fang = employee("Marketing")
-fang.employee("Fang", 55000, "Marketing Manager")       
-fang.display()
+
+class son(father):
+    pass
+
+
+xihad = son()
+xihad.info("Xihad", 20)
+xihad.display()
+
+     
