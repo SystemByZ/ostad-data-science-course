@@ -118,20 +118,35 @@
 # xihad.info("Xihad", 20)
 # xihad.display()
 
-class person1:
-    def __init__(self,name,age):
-        self.name = name
-        self.age = age
-    def display(self):
-        print(f"Name: {self.name}, Age: {self.age}")
-    def show(self):
-        print("This is person1 class")
+# class person1:
+#     def __init__(self,name,age):
+#         self.name = name
+#         self.age = age
+#     def display(self):
+#         print(f"Name: {self.name}, Age: {self.age}")
+#     def show(self):
+#         print("This is person1 class")
 
-class person2(person1):
-    def show2(self):
-        print("This is person2 class")
+# class person2(person1):
+#     def show2(self):
+#         print("This is person2 class")
 
-zihad =person2("Xihad", 20)
-zihad.show2()
-zihad.show()
-zihad.display()
+# zihad =person2("Xihad", 20)
+# zihad.show2()
+# zihad.show()
+# zihad.display()
+
+class A:
+    def method_a(self):
+        print("This is method A")
+class B:
+    def method_b(self):
+        print("This is method B")
+class C(A,B):
+    def method_c(self):
+        print("this is method C")
+
+zihad = C()
+zihad.method_a()
+zihad.method_b()
+zihad.method_c()
