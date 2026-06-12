@@ -136,17 +136,32 @@
 # zihad.show()
 # zihad.display()
 
+# class A:
+#     def method_a(self):
+#         print("This is method A")
+# class B:
+#     def method_b(self):
+#         print("This is method B")
+# class C(A,B):
+#     def method_c(self):
+#         print("this is method C")
+
+# zihad = C()
+# zihad.method_a()
+# zihad.method_b()
+# zihad.method_c()
+
 class A:
     def method_a(self):
         print("This is method A")
-class B:
+class B(A):
     def method_b(self):
         print("This is method B")
-class C(A,B):
+class C(B):
     def method_c(self):
         print("this is method C")
 
-zihad = C()
-zihad.method_a()
-zihad.method_b()
-zihad.method_c()
+x = C()
+x.method_a()
+x.method_b()        
+x.method_c()
