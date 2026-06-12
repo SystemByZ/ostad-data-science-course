@@ -95,27 +95,43 @@
 # class person:
 #     pass
 
-class father:
+# class father:
 
-    def info(self, name, age):
+#     def info(self, name, age):
+#         self.name = name
+#         self.age = age
+
+#     def display(self):
+#         print(f"Name: {self.name}, Age: {self.age}")
+
+
+# kabir = father()
+# kabir.info("Kabir", 50)
+# kabir.display()
+
+
+# class son(father):
+#     pass
+
+
+# xihad = son()
+# xihad.info("Xihad", 20)
+# xihad.display()
+
+class person1:
+    def __init__(self,name,age):
         self.name = name
         self.age = age
-
     def display(self):
         print(f"Name: {self.name}, Age: {self.age}")
+    def show(self):
+        print("This is person1 class")
 
+class person2(person1):
+    def show2(self):
+        print("This is person2 class")
 
-kabir = father()
-kabir.info("Kabir", 50)
-kabir.display()
-
-
-class son(father):
-    pass
-
-
-xihad = son()
-xihad.info("Xihad", 20)
-xihad.display()
-
-     
+zihad =person2("Xihad", 20)
+zihad.show2()
+zihad.show()
+zihad.display()
