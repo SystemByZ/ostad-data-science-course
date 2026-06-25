@@ -1,0 +1,7 @@
+#source from "code with harry"
+
+
+Step 1: Create a Database
+
+CREATE DATABASE startersql;
+
