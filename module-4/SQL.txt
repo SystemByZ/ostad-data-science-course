@@ -5,3 +5,104 @@ Step 1: Create a Database
 
 CREATE DATABASE startersql;
 
+After creating the database, either:
+
+Right-click it in MySQL Workbench and select "Set as Default Schema", or
+Use this SQL command:
+
+USE startersql;
+
+Step 2: Create a Table
+
+Now we’ll create a simple users table:
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    gender ENUM('Male', 'Female', 'Other'),
+    date_of_birth DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+This table will store basic user info.
+
+Step 3: Drop the Database
+
+You can delete the entire database (and all its tables) using:
+
+DROP DATABASE startersql;
+
+"Be careful — this will delete everything in that database."
+
+Working with Tables in MySQL:
+
+Selecting Data from a Table:
+
+Select All Columns:
+
+SELECT * FROM users;
+
+This fetches every column and every row from the users table.
+
+Select Specific Columns:
+
+SELECT name, email FROM users;
+
+This only fetches the name and email columns from all rows.
+
+Renaming a Table:
+To rename an existing table:
+
+RENAME TABLE users TO customers;
+
+To rename it back:
+
+RENAME TABLE customers TO users;
+
+Altering a Table:
+You can use ALTER TABLE to modify an existing table.
+Add a Column:
+
+ALTER TABLE users ADD COLUMN is_active BOOLEAN DEFAULT TRUE;
+
+Drop a Column:
+
+ALTER TABLE users DROP COLUMN is_active;
+
+Modify a Column Type:
+
+ALTER TABLE users MODIFY COLUMN name VARCHAR(150);
+
+Move a Column to the First Position:
+To move a column (e.g., email) to the first position:
+
+ALTER TABLE users MODIFY COLUMN email VARCHAR(100) FIRST;
+
+To move a column after another column (e.g., move gender after name):
+
+ALTER TABLE users MODIFY COLUMN gender ENUM('Male', 'Female', 'Other') AFTER name;
+
+Insert Without Specifying Column Names (Full Row Insert):
+This method requires you to provide values for all columns in order, except columns with default values or AUTO_INCREMENT.
+
+INSERT INTO users VALUES
+(1, 'Alice', 'alice@example.com', 'Female', '1995-05-14', DEFAULT);
+
+"Not recommended if your table structure might change (e.g., new columns added later)."
+
+Insert by Specifying Column Names (Best Practice):
+This method is safer and more readable. You only insert into specific columns.
+
+INSERT INTO users (name, email, gender, date_of_birth) VALUES
+('Bob', 'bob@example.com', 'Male', '1990-11-23');
+
+or for multiple rows:
+
+INSERT INTO users (name, email, gender, date_of_birth) VALUES
+('Bob', 'bob@example.com', 'Male', '1990-11-23'),
+('Charlie', 'charlie@example.com', 'Other', '1988-02-17');
+
+The remaining columns like id (which is AUTO_INCREMENT) and created_at (which has a default) are automatically handled by MySQL.
+
+
