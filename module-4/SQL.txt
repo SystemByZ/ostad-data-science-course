@@ -340,3 +340,37 @@ SELECT name, gender,
        IF(gender = 'Female', 'Yes', 'No') AS is_female
 FROM users;
 
+MySQL Transactions and AutoCommit:
+Example Workflow
+Here’s a simple example of using COMMIT and ROLLBACK in a transaction:
+
+Turn off AutoCommit:
+
+SET autocommit = 0;
+
+Make some changes (e.g., updating a salary):
+
+UPDATE users SET salary = 80000 WHERE id = 5;
+
+Decide whether to commit or rollback:
+
+If you’re happy with the changes, run:
+
+COMMIT;
+
+If you’re not happy and want to revert the changes, run:
+
+ROLLBACK;
+
+4. Enabling AutoCommit Again
+If you want to turn AutoCommit back on (so that every statement is automatically committed), you can do so with:
+
+SET autocommit = 1;
+
+Best Practices
+Use COMMIT when you want to make changes permanent.
+
+Use ROLLBACK to discard changes if something goes wrong.
+
+Consider disabling AutoCommit when performing complex updates to avoid saving partial or incorrect data.
+
