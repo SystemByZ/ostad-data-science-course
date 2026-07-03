@@ -726,3 +726,126 @@ In referral-based relationships, store the referrer’s id in the same table.
 
 Use aliases like a and b to differentiate the two instances of the same table.
 
+MySQL Views
+A view in MySQL is a virtual table based on the result of a SELECT query. It does not store data itself — it always reflects the current data in the base tables.
+
+Views are useful when:
+
+You want to simplify complex queries
+You want to reuse logic
+You want to hide certain columns from users
+You want a "live snapshot" of filtered data
+Creating a View
+Suppose we want a view that lists all users earning more than ₹70,000.
+
+CREATE VIEW high_salary_users AS
+SELECT id, name, salary
+FROM users
+WHERE salary > 70000;
+
+Querying the View
+SELECT * FROM high_salary_users;
+
+This will return all users from the users table where salary is above ₹70,000.
+
+Demonstrating That a View is Always Up-To-Date
+Let’s see what happens when the underlying data changes.
+
+Step 1: View before update
+SELECT * FROM high_salary_users;
+
+Output:
+
+id	name	salary
+2	Sneha	75000
+5	Fatima	80000
+Step 2: Update a user's salary
+UPDATE users
+SET salary = 72000
+WHERE name = 'Raj';
+
+Step 3: Query the view again
+SELECT * FROM high_salary_users;
+
+New Output:
+
+id	name	salary
+2	Sneha	75000
+5	Fatima	80000
+3	Raj	72000
+Notice how Raj is now included in the view — without updating the view itself. That’s because views always reflect live data from the original table.
+
+Dropping a View
+To remove a view:
+
+DROP VIEW high_salary_users;
+
+Summary
+Views act like saved SELECT queries
+
+Views are not duplicated data
+
+Changes to base tables are reflected automatically
+
+Great for simplifying complex queries or creating filtered access
+
+MySQL Indexes
+Indexes in MySQL are used to speed up data retrieval. They work like the index of a book — helping the database engine find rows faster, especially for searches, filters, and joins.
+
+Viewing Indexes on a Table
+To see the indexes on a table, use:
+
+SHOW INDEXES FROM users;
+
+This shows all the indexes currently defined on the users table, including the automatically created primary key index.
+
+Creating a Single-Column Index
+Suppose you're frequently searching users by their email. You can speed this up by indexing the email column.
+
+CREATE INDEX idx_email ON users(email);
+
+What this does:
+Creates an index named idx_email
+Improves performance of queries like:
+SELECT * FROM users WHERE email = 'example@example.com';
+
+Important Notes
+Indexes consume extra disk space
+Indexes slow down INSERT, UPDATE, and DELETE operations slightly (because the index must be updated)
+Use indexes only when needed (i.e., for columns used in WHERE, JOIN, ORDER BY)
+Creating a Multi-Column Index
+If you often query users using both gender and salary, a multi-column index is more efficient than separate indexes.
+
+CREATE INDEX idx_gender_salary ON users(gender, salary);
+
+Usage Example:
+SELECT * FROM users
+WHERE gender = 'Female' AND salary > 70000;
+
+This query can take advantage of the combined index on gender and salary.
+
+Index Order Matters
+For a multi-column index on (gender, salary):
+
+This works efficiently:
+
+WHERE gender = 'Female' AND salary > 70000
+
+But this may not use the index effectively:
+
+WHERE salary > 70000
+
+Because the first column in the index (gender) is missing in the filter.
+
+Dropping an Index
+To delete an index:
+
+DROP INDEX idx_email ON users;
+
+Summary
+Feature	Description
+SHOW INDEXES	View current indexes on a table
+CREATE INDEX	Create single or multi-column indexes
+DROP INDEX	Remove an index
+Use when	Query performance on large tables is a concern
+Avoid on	Columns that are rarely queried or always unique
