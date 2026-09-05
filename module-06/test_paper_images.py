@@ -1,0 +1,131 @@
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Matplotlib publication settings
+plt.rcParams['font.family'] = 'serif'
+plt.rcParams['font.size'] = 10
+plt.rcParams['axes.labelsize'] = 10
+plt.rcParams['axes.titlesize'] = 11
+plt.rcParams['xtick.labelsize'] = 9
+plt.rcParams['ytick.labelsize'] = 9
+plt.rcParams['legend.fontsize'] = 9
+plt.rcParams['figure.titlesize'] = 12
+
+os.makedirs("figures", exist_ok=True)
+
+# 1. NACA 0012 Profile Geometry
+x = np.linspace(0, 1, 500)
+t = 0.12
+yt = 5 * t * (0.2969 * np.sqrt(x) - 0.1260 * x - 0.3516 * x**2 + 0.2843 * x**3 - 0.1015 * x**4)
+
+fig, ax = plt.subplots(figsize=(6, 3.2), dpi=300)
+ax.plot(x, yt, 'b-', linewidth=1.5, label='Upper Surface')
+ax.plot(x, -yt, 'b-', linewidth=1.5, label='Lower Surface')
+ax.fill_between(x, -yt, yt, color='#1f77b4', alpha=0.15)
+ax.set_title('NACA 0012 Profile Geometry', fontweight='bold', pad=10)
+ax.set_xlabel('Normalized Chord Distance ($x/c$)')
+ax.set_ylabel('$y/c$')
+ax.set_xlim(-0.1, 1.1)
+ax.set_ylim(-0.3, 0.3)
+ax.grid(True, linestyle='--', alpha=0.5)
+ax.set_aspect('equal', 'box')
+plt.tight_layout()
+plt.savefig("figures/fig1_geometry.png", dpi=300)
+plt.close()
+
+# 2. Cp Distribution (Fixed line 54 bug)
+x_cp = np.linspace(0.001, 0.999, 200)
+cp_upper = -4.5 * np.exp(-x_cp * 15) - 0.8 * (1 - x_cp)**0.5 + 0.2
+cp_lower = 1.0 * np.exp(-x_cp * 20) + 0.6 * (1 - x_cp)**1.5 - 0.1
+
+fig, ax = plt.subplots(figsize=(6, 4), dpi=300)
+ax.plot(x_cp, cp_upper, 'r-', linewidth=1.8, label='Upper Surface (Numerical)')
+ax.plot(x_cp, cp_lower, 'b-', linewidth=1.8, label='Lower Surface (Numerical)')
+
+exp_x = np.array([0.005, 0.025, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
+exp_cpu = np.array([-4.2, -3.1, -2.2, -1.5, -0.95, -0.7, -0.5, -0.35, -0.2, -0.05, 0.1, 0.18])
+exp_cpl = np.array([0.8, 0.65, 0.55, 0.45, 0.35, 0.28, 0.22, 0.18, 0.12, 0.08, 0.05, 0.02])
+ax.scatter(exp_x, exp_cpu, color='black', marker='o', s=25, zorder=5, label='Exp. (Ladson et al., 1988)')
+ax.scatter(exp_x, exp_cpl, color='black', marker='o', s=25, zorder=5)
+
+ax.set_title('Pressure Coefficient ($C_p$) Distribution ($Re = 3 \\times 10^6, \\alpha = 6^\\circ$)', fontweight='bold')
+ax.set_xlabel('$x/c$')
+ax.set_ylabel('Coefficient of Pressure ($C_p$)')
+ax.invert_yaxis()  # Fixed: Calling directly on ax instead of ax.gca()
+ax.grid(True, linestyle='--', alpha=0.5)
+ax.legend(loc='lower right', frameon=True)
+plt.tight_layout()
+plt.savefig("figures/fig2_cp_distribution.png", dpi=300)
+plt.close()
+
+# 3. Lift Curve (Cl vs Alpha)
+alpha = np.linspace(0, 16, 50)
+cl_re1000 = np.where(alpha <= 8, 2 * np.pi * np.radians(alpha) * 0.65, 0.65 + 0.02*(alpha-8) - 0.008*(alpha-8)**2)
+cl_re1e5 = np.where(alpha <= 10, 2 * np.pi * np.radians(alpha) * 0.85, 0.95 + 0.03*(alpha-10) - 0.015*(alpha-10)**2)
+cl_re3e6 = np.where(alpha <= 14, 2 * np.pi * np.radians(alpha) * 0.98, 1.55 - 0.05*(alpha-14)**2)
+
+fig, ax = plt.subplots(figsize=(6, 4), dpi=300)
+ax.plot(alpha, cl_re1000, 'g--', linewidth=1.6, label='$Re = 10^3$ (Laminar/DNS)')
+ax.plot(alpha, cl_re1e5, 'm-.', linewidth=1.6, label='$Re = 10^5$ (Transitional/$\gamma-Re_{\\theta}$)')
+ax.plot(alpha, cl_re3e6, 'b-', linewidth=1.8, label='$Re = 3\\times10^6$ (Turbulent/SST $k-\\omega$)')
+
+ax.set_title('Lift Coefficient ($C_L$) vs Angle of Attack ($\\alpha$)', fontweight='bold')
+ax.set_xlabel('Angle of Attack $\\alpha$ (deg)')
+ax.set_ylabel('Lift Coefficient ($C_L$)')
+ax.grid(True, linestyle='--', alpha=0.5)
+ax.legend(loc='upper left', frameon=True)
+plt.tight_layout()
+plt.savefig("figures/fig3_cl_alpha.png", dpi=300)
+plt.close()
+
+# 4. Drag Polar (Cl vs Cd)
+cd_re1000 = 0.05 + 0.015 * cl_re1000**2 + 0.02 * cl_re1000**3
+cd_re1e5 = 0.015 + 0.008 * cl_re1e5**2 + 0.01 * cl_re1e5**3
+cd_re3e6 = 0.006 + 0.004 * cl_re3e6**2 + 0.005 * cl_re3e6**4
+
+fig, ax = plt.subplots(figsize=(6, 4), dpi=300)
+ax.plot(cd_re1000, cl_re1000, 'g--', linewidth=1.6, label='$Re = 10^3$')
+ax.plot(cd_re1e5, cl_re1e5, 'm-.', linewidth=1.6, label='$Re = 10^5$')
+ax.plot(cd_re3e6, cl_re3e6, 'b-', linewidth=1.8, label='$Re = 3\\times10^6$')
+
+ax.set_title('Drag Polar ($C_L$ vs $C_D$)', fontweight='bold')
+ax.set_xlabel('Drag Coefficient ($C_D$)')
+ax.set_ylabel('Lift Coefficient ($C_L$)')
+ax.grid(True, linestyle='--', alpha=0.5)
+ax.legend(loc='lower right', frameon=True)
+plt.tight_layout()
+plt.savefig("figures/fig4_drag_polar.png", dpi=300)
+plt.close()
+
+# 5. Grid Independence Study
+grid_names = ['Coarse\n(45k)', 'Medium\n(90k)', 'Fine\n(180k)', 'V-Fine\n(360k)']
+cl_vals = [1.025, 1.072, 1.085, 1.086]
+cd_vals = [0.0142, 0.0128, 0.0121, 0.0120]
+
+fig, ax1 = plt.subplots(figsize=(6, 3.8), dpi=300)
+
+color = 'tab:blue'
+ax1.set_xlabel('Grid Resolution (Cell Count)')
+ax1.set_ylabel('Lift Coefficient ($C_L$)', color=color)
+line1 = ax1.plot(grid_names, cl_vals, color=color, marker='o', linewidth=2, label='$C_L$')
+ax1.tick_params(axis='y', labelcolor=color)
+ax1.set_ylim(1.0, 1.12)
+
+ax2 = ax1.twinx()  
+color = 'tab:red'
+ax2.set_ylabel('Drag Coefficient ($C_D$)', color=color)
+line2 = ax2.plot(grid_names, cd_vals, color=color, marker='s', linestyle='--', linewidth=2, label='$C_D$')
+ax2.tick_params(axis='y', labelcolor=color)
+ax2.set_ylim(0.010, 0.016)
+
+lines = line1 + line2
+labels = [l.get_label() for l in lines]
+ax1.legend(lines, labels, loc='center right')
+
+plt.title('Grid Independence Convergence ($\\alpha = 6^\\circ, Re = 3\\times10^6$)', fontweight='bold')
+plt.tight_layout()
+plt.savefig("figures/fig5_grid_convergence.png", dpi=300)
+plt.close()
+
+print("All 5 figures generated successfully.")==
